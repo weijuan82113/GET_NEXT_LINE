@@ -6,7 +6,7 @@
 /*   By: wchen <wchen@42studen>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:27:19 by wchen             #+#    #+#             */
-/*   Updated: 2022/10/09 02:06:40 by wchen            ###   ########.fr       */
+/*   Updated: 2022/10/15 20:34:43 by wchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 char	*ft_save(char *line, char *find_return)
 {
-	char	*ret_chr;
+	char	*ret_chr = NULL;
 	size_t	ret_length;
 	size_t	i;
 
-	ret_length = ft_strlen(line) + (size_t)(find_return - line + 1);
+	ret_length = (size_t)(find_return - line + 1);
 	ret_chr = (char *)malloc(sizeof(char) * (ret_length + 2));
 	if (!ret_chr)
 		return (NULL);
@@ -28,9 +28,17 @@ char	*ft_save(char *line, char *find_return)
 		ret_chr[i] = line[i];
 		i ++;
 	}
+	//if (*line != '\0')
+	free (line);
 	ret_chr[i ++] = '\n';
 	ret_chr[i] = '\0';
 	return (ret_chr);
+}
+
+char	*free_buf(char* buf)
+{
+	free (buf);
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
@@ -44,54 +52,59 @@ char	*get_next_line(int fd)
 	find_return = ft_memchr((char *)line, '\n', ft_strlen(line));
 	if (find_return)
 	{
+		printf("test1");
 		ret_chr = ft_save(line, find_return);
 		line = find_return + 1;
-		//free (line);
 		return (ret_chr);
 	}
-	buf = (void *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buf = (void *)malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
-	if (fd < 0 || BUFFER_SIZE < 0 || BUFFER_SIZE > SIZE_MAX)
-		return (NULL);
+	if (fd < 0 || fd > 256 || BUFFER_SIZE < 0 || BUFFER_SIZE > INT_MAX)
+		return (free_buf(buf));
 	read_byte = read(fd, buf, BUFFER_SIZE);
-	if (!read_byte)
+	if (!read_byte || read_byte < 0)
 	{
 		if (*line != '\0')
 		{
-			ret_chr = line;
+			printf("test2");
+			ret_chr = malloc(sizeof(char) * (ft_strlen(line) + 1));
+			if (!ret_chr)
+				return (free_buf(buf));
+			ret_chr = ft_strjoin(line, "\0");
 			line = "\0";
 			free (buf);
 			return (ret_chr);
 		}
-		return (NULL);
+		printf("test3");
+		return (free_buf(buf));
 	}
-	buf[BUFFER_SIZE] = '\0';
+	buf[read_byte] = '\0';
 	line = ft_strjoin(line, buf);
-	//printf("line is %s\n", line);
-	//free (line);
 	free (buf);
 	return (get_next_line(fd));
 }
 
-// int	main(void)
-// {
-// 	int 		fd;
-// 	char		*print_char;
-// 	ssize_t		read_byte;
-// 	char		buf[BUFFER_SIZE];
+# include <stdbool.h>
 
-// 	fd = 0;
-// 	fd = open("./empty", O_RDWR);
-// 	read_byte = read(fd, buf, BUFFER_SIZE);
-// 	printf("read_byte is %zd \n", read_byte);
-// 	printf("fd is %d \n", fd);
-// 	print_char = get_next_line(fd);
-// 	while (print_char)
-// 	{
-// 		printf("print char is %s", print_char);
-// 		print_char = get_next_line(fd);
-// 	}
-// 	close(fd);
-// 	return 0;
-// }
+int main(int ac, char **av) {
+	size_t i;
+    if (ac != 2) {
+        fprintf(stderr, "invalid argument");
+        return 1;
+    }
+	(void)av;
+    int fd = open("41_no_nl", O_RDONLY);
+	//printf("fd is %d \n", fd);
+    i = 0;
+	while (true) {
+        char *s = get_next_line(fd);
+		printf("%zu:%s",i, s);
+        if (s == NULL) {
+            break;
+        }
+        printf("%s", s);
+        free(s);
+		i ++;
+    }
+}

@@ -6,7 +6,7 @@
 /*   By: wchen <wchen@42studen>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 00:15:06 by wchen             #+#    #+#             */
-/*   Updated: 2022/10/08 23:24:14 by wchen            ###   ########.fr       */
+/*   Updated: 2022/10/15 20:29:18 by wchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,37 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	return (NULL);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*r_chr;
 	char	*p_chr;
 	size_t	len_s1;
 	size_t	len_s2;
+	size_t	i;
 
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
-	r_chr = (char *)malloc(sizeof(char) * (len_s1 + len_s2) + 1);
+	r_chr = malloc(sizeof(char) * (len_s1 + len_s2) + 1);
 	if (!r_chr)
 		return (NULL);
 	p_chr = r_chr;
-	while (*s1 != '\0')
-		*r_chr ++ = *s1 ++;
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		*r_chr ++ = s1[i];
+		i ++;
+	}
+	if (*s1 != '\0')
+	{
+		free (s1);
+		printf("test4");
+	}
+	if (s1)
 	while (*s2 != '\0')
 		*r_chr ++ = *s2 ++;
+	//free (s2 - len_s2);
 	*r_chr = '\0';
 	return (p_chr);
 }
