@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wchen <wchen@42studen>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:27:19 by wchen             #+#    #+#             */
-/*   Updated: 2022/10/17 00:29:43 by wchen            ###   ########.fr       */
+/*   Updated: 2022/10/18 19:52:23 by wchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*return_save(char **line, char *find_return)
 {
@@ -64,11 +64,13 @@ char	*get_next_line(int fd)
 	ssize_t			read_byte;
 	char			*buf;
 	char			*find_return;
-	static char		*line = "\0";
+	static char		*line[256];
 
-	find_return = ft_memchr(line, '\n', ft_strlen(line));
+	if(!line[fd])
+		line[fd] = "\0";
+	find_return = ft_memchr(line[fd], '\n', ft_strlen(line[fd]));
 	if (find_return)
-		return (return_save(&line, find_return));
+		return (return_save(&line[fd], find_return));
 	buf = malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
@@ -78,10 +80,10 @@ char	*get_next_line(int fd)
 	if (!read_byte || read_byte < 0)
 	{
 		free (buf);
-		return (return_line(&line));
+		return (return_line(&line[fd]));
 	}
 	buf[read_byte] = '\0';
-	line = ft_strjoin(line, buf);
+	line[fd] = ft_strjoin(line[fd], buf);
 	free (buf);
 	return (get_next_line(fd));
 }
