@@ -6,13 +6,25 @@
 /*   By: wchen <wchen@42studen>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:27:19 by wchen             #+#    #+#             */
-/*   Updated: 2022/10/17 00:29:43 by wchen            ###   ########.fr       */
+/*   Updated: 2022/10/19 22:38:15 by wchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*return_save(char **line, char *find_return)
+static void	save(char **line, char *find_return)
+{
+	char	*tmp;
+
+	tmp = *line;
+	if (*(find_return + 1) != '\0')
+		*line = ft_strjoin("\0", find_return + 1);
+	else
+		*line = "\0";
+	free (tmp);
+}
+
+static char	*return_save(char **line, char *find_return)
 {
 	char	*ret_chr;
 	size_t	ret_length;
@@ -21,7 +33,7 @@ char	*return_save(char **line, char *find_return)
 	ret_length = 0;
 	while ((*line)[ret_length] != '\n')
 		ret_length ++;
-	ret_chr = (char *)malloc(sizeof(char) * (ret_length + 1));
+	ret_chr = (char *)malloc(sizeof(char) * (ret_length + 2));
 	if (!ret_chr)
 		return (NULL);
 	i = 0;
@@ -32,21 +44,17 @@ char	*return_save(char **line, char *find_return)
 	}
 	ret_chr[i ++] = '\n';
 	ret_chr[i] = '\0';
-	free(*line);
-	if (*(find_return + 1) != '\0')
-		*line = ft_strjoin("\0", find_return + 1);
-	else
-		*line = "\0";
+	save(line, find_return);
 	return (ret_chr);
 }
 
-char	*free_buf(char *buf)
+static char	*free_buf(char *buf)
 {
 	free (buf);
 	return (NULL);
 }
 
-char	*return_line(char **line)
+static char	*return_line(char **line)
 {
 	char	*ret_chr;
 
@@ -90,28 +98,28 @@ char	*get_next_line(int fd)
 
 // int main(int ac, char **av) {
 // 	size_t i;
-//     if (ac != 4) {
+//     if (ac != 2) {
 //         fprintf(stderr, "invalid argument");
 //         return 1;
 //     }
 //     int fd1 = open(av[1], O_RDONLY);
-// 	int fd2 = open(av[2], O_RDONLY);
-// 	int fd3 = open(av[3], O_RDONLY);
+// 	//int fd2 = open(av[2], O_RDONLY);
+// 	//int fd3 = open(av[3], O_RDONLY);
 // 	//printf("fd is %d \n", fd);
 //     i = 0;
 // 	while (true) {
 //         char *s1 = get_next_line(fd1);
-// 		char *s2 = get_next_line(fd2);
-// 		char *s3 = get_next_line(fd3);
+// 		//char *s2 = get_next_line(fd2);
+// 		//char *s3 = get_next_line(fd3);
 // 		printf("%zu:%s \n",i, s1);
-// 		printf("%zu:%s \n",i, s2);
-// 		printf("%zu:%s \n",i, s3);
-//         if (s1 == NULL || s2 == NULL || s3 == NULL) {
+// 		//printf("%zu:%s \n",i, s2);
+// 		//printf("%zu:%s \n",i, s3);
+//         if (s1 == NULL) {
 //             break;
 //         }
 //         free(s1);
-// 		free(s2);
-// 		free(s3);
+// 		//free(s2);
+// 		//free(s3);
 // 		i ++;
 //     }
 // }

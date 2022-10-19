@@ -6,13 +6,25 @@
 /*   By: wchen <wchen@42studen>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:27:19 by wchen             #+#    #+#             */
-/*   Updated: 2022/10/19 20:35:40 by wchen            ###   ########.fr       */
+/*   Updated: 2022/10/19 22:39:56 by wchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*return_save(char **line, char *find_return)
+static void	save(char **line, char *find_return)
+{
+	char	*tmp;
+
+	tmp = *line;
+	if (*(find_return + 1) != '\0')
+		*line = ft_strjoin("\0", find_return + 1);
+	else
+		*line = "\0";
+	free (tmp);
+}
+
+static char	*return_save(char **line, char *find_return)
 {
 	char	*ret_chr;
 	size_t	ret_length;
@@ -32,21 +44,17 @@ char	*return_save(char **line, char *find_return)
 	}
 	ret_chr[i ++] = '\n';
 	ret_chr[i] = '\0';
-	free(*line);
-	if (*(find_return + 1) != '\0')
-		*line = ft_strjoin("\0", find_return + 1);
-	else
-		*line = "\0";
+	save(line, find_return);
 	return (ret_chr);
 }
 
-char	*free_buf(char *buf)
+static char	*free_buf(char *buf)
 {
 	free (buf);
 	return (NULL);
 }
 
-char	*return_line(char **line)
+static char	*return_line(char **line)
 {
 	char	*ret_chr;
 
