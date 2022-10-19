@@ -6,7 +6,7 @@
 /*   By: wchen <wchen@42studen>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:27:19 by wchen             #+#    #+#             */
-/*   Updated: 2022/10/18 21:58:37 by wchen            ###   ########.fr       */
+/*   Updated: 2022/10/19 20:35:40 by wchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*get_next_line(int fd)
 	ssize_t			read_byte;
 	char			*buf;
 	char			*find_return;
-	static char		*line[256];
+	static char		*line[1024];
 
 	if (!line[fd])
 		line[fd] = "\0";
