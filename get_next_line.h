@@ -6,7 +6,7 @@
 /*   By: wchen <wchen@42studen>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 00:15:08 by wchen             #+#    #+#             */
-/*   Updated: 2022/10/16 15:00:17 by wchen            ###   ########.fr       */
+/*   Updated: 2022/10/18 20:57:20 by wchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 # ifdef BUFFER_SIZE
 # else
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 1024
 # endif
 
 size_t	ft_strlen(const char *c);

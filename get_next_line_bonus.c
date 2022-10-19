@@ -6,7 +6,7 @@
 /*   By: wchen <wchen@42studen>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:27:19 by wchen             #+#    #+#             */
-/*   Updated: 2022/10/18 19:52:23 by wchen            ###   ########.fr       */
+/*   Updated: 2022/10/18 21:58:37 by wchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*get_next_line(int fd)
 	char			*find_return;
 	static char		*line[256];
 
-	if(!line[fd])
+	if (!line[fd])
 		line[fd] = "\0";
 	find_return = ft_memchr(line[fd], '\n', ft_strlen(line[fd]));
 	if (find_return)
