@@ -6,7 +6,7 @@
 /*   By: wchen <wchen@42studen>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 22:27:19 by wchen             #+#    #+#             */
-/*   Updated: 2022/10/19 22:44:36 by wchen            ###   ########.fr       */
+/*   Updated: 2022/10/21 21:12:11 by wchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*return_save(char **line, char *find_return)
 	ret_length = 0;
 	while ((*line)[ret_length] != '\n')
 		ret_length ++;
-	ret_chr = (char *)malloc(sizeof(char) * (ret_length + 1));
+	ret_chr = (char *)malloc(sizeof(char) * (ret_length + 2));
 	if (!ret_chr)
 		return (NULL);
 	i = 0;

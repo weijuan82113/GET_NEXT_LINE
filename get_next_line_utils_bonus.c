@@ -6,7 +6,7 @@
 /*   By: wchen <wchen@42studen>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/29 00:15:06 by wchen             #+#    #+#             */
-/*   Updated: 2022/10/21 21:02:33 by wchen            ###   ########.fr       */
+/*   Updated: 2022/10/21 21:11:58 by wchen            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
-	r_chr = malloc(sizeof(char) * (len_s1 + len_s2 + 2));
+	r_chr = malloc(sizeof(char) * (len_s1 + len_s2 + 1));
 	if (!r_chr)
 		return (NULL);
 	p_chr = r_chr;
